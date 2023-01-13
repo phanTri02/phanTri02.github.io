@@ -1,0 +1,390 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"
+        integrity="sha512-EaaldggZt4DPKMYBa143vxXQqLq5LE29DG/0OoVenoyxDrAScYrcYcHIuxYO9YNTIQMgD8c8gIUU8FQw7WpXSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Make task</title>
+
+    <link rel="stylesheet" href="css/task.css">
+
+</head>
+
+<body onload="loadingFolders()">
+    <nav>
+        <ul>
+            <li><a href="task.html">Task</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <a onclick="logOut(event)">LOG OUT</a>
+        </ul>
+    </nav>
+
+    
+
+    <!-- <div class="col-auto d-flex align-items-center">
+        <label class="text-secondary my-2 pr-2 view-opt-label">Or check task being shared: </label>
+        <br>
+        <button class="btn btn-secondary" onclick="getSharedTask()"><i class="fa fa-share"></i></button>
+    </div> -->
+
+    <div class="container-fluid rounded bg-light">
+        <div class="col-12 d-flex align-items-center">
+            <label class="text-secondary my-2 pr-2 view-opt-label">Folder</label>
+            <select id="folder_lists" autofocus onchange="selectFolder()">
+                <option value="1" disabled selected hidden> Choose folder</option>
+            </select>
+        </div>
+        <!-- View options section -->
+        <div class="row m-1 p-3 px-5 justify-content-end">
+            <div class="col-auto d-flex align-items-center">
+                <label class="text-secondary my-2 pr-2 view-opt-label">Filter</label>
+                <select class="custom-select custom-select-sm btn my-2" id="filter_select" onchange="filterStatus()">
+                    <option value="all" selected>All</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Not done">Not done</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <h4 id="notify" style="text-align: center;">
+            </h2>
+            <!-- Task list section -->
+            <br>
+                <div class="col">
+                    <table class="table table-stripped table-responsive" id="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" style="width: 90px" onclick="sortTableNumerically()">Task ID</th>
+                                <th scope="col" style="width: 150px" id="th_name" onclick="sortTableAlphabetical(0)">
+                                    Task name</th>
+                                <th scope="col" style="width: 150px" id="th_status" onclick="sortTableAlphabetical(1)">
+                                    Task status</th>
+                                <th scope="col" style="width: 300px" id="th_details" onclick="sortTableAlphabetical(2)">
+                                    Task description</th>
+                                <th scope="col" style="width: 300px" id="th_options">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody id="task_lists">
+                            <!-- <tr>
+                        <th scope="row">1</th>
+                        <td>Task 19024</td>
+                        <td>dd/mm/yyyy</td>
+                        <td>dd/mm/yyyy</td>
+                        <td>
+                            Lorem ipsum dolor s veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" title="Edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o"></i></button>
+                            <button type="button" class="btn btn-warning" title="Move to another folder" data-toggle="modal" data-target="#moveModal"><i class="fa fa-exchange" ></i></button>
+                            <button type="button" class="btn btn-danger" title="Delete" data-toggle="modal" data-target="#deletedModal" id="test"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                      </tr> -->
+                        </tbody>
+                    </table>
+                    <!-- Create task and folder section -->
+                    <div class="row m-1 p-3">
+                        <div class="col-auto px-0 mx-0 mr-2">
+                            <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
+                                data-target="#addFolderModal">
+                                New folder</button>
+                            <button type="button" class="btn-group btn-group-toggle" data-toggle="modal" data-target="#addModal"
+                                id="btn_addtask" onclick="loadFolderUpdateDeleteAddTask()">
+                                New task</button>
+                            <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
+                                data-target="#updatedFolderModal" onclick="loadFolderUpdateDeleteAddTask()">Update
+                                folder</button>
+                            <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
+                                data-target="#deletedFolderModal" onclick="loadFolderUpdateDeleteAddTask()">Delete
+                                folder</button>
+                        </div>
+                    </div>
+                    <!-- The Modal -->
+                    <div class="modal fade" id="addModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">New task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Task name:</label>
+                                            <input type="text" class="form-control" placeholder="Task name"
+                                                id="addTask_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="folder">Select folder: </label>
+                                            <select id="addtaskfolders_lists">
+                                                <option value="" disabled selected hidden> Choose folder </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="detail">Description:</label>
+                                            <textarea class="form-control" rows="3" id="addTask_detail"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="btn_addfoldertask"
+                                        onclick="addTask()">Add
+                                        task</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="editModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Task name:</label>
+                                            <input type="text" class="form-control edit task" placeholder="Task name"
+                                                id="edittask_name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="detail">Task description:</label>
+                                            <textarea class="form-control" rows="3" id="edittask_detail"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success edit" data-dismiss="modal"
+                                        id="edit_btn">Edit
+                                        task</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="addFolderModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">New folder</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Folder name:</label>
+                                            <input type="text" class="form-control" id="addFolder_name">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal"
+                                        onclick="addFolder()">Add folder</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deletedModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name" id="delete_label1"></label>
+                                            <p class="thick" id="delete_label2"></p>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                        id="delete_btn task">Confirm</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="duplicateModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Duplicate task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name" id="duplicate_label1"></label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                        id="duplicate_btn">Confirm</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="moveModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Move task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="folder">Select folder to move task: </label>
+                                            <select id="movetaskfolders_list">
+                                                <option value="" disabled selected hidden> -- Choose folder -- </option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" id="move_btn">Move
+                                        task</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="shareModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Share task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Share to:</label>
+                                            <select id="users_list">
+                                                <option value="" disabled selected hidden> User </option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                                        id="share_btn">Share</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="updatedFolderModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update folder</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="folder">Choose folder: </label>
+                                            <select id="updatefolder_lists" onchange="loadingOnchangeSelectUpdate()">
+                                                <option value="" disabled selected hidden> Folder</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">New folder name:</label>
+                                            <input type="text" class="form-control" id="updatefolder_name">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="btn_addfoldertask"
+                                        onclick="updateFolder()">Update folder
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deletedFolderModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete folder</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Choose folder: </label>
+                                            <select id="deletefolder_lists">
+                                                <option value="" disabled selected hidden> Choose folder</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal"
+                                        onclick="deleteFolder()" id="btn_deletefolder" id="delete_btn">Confirm</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+    <script src="js/task.js"></script>
+    <script src="js/logout.js"></script>
+</body>
+
+</html>

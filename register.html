@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/register.css">
+    <title>Register</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+    <script src="/js/register.js"></script>
+</head>
+
+<body>
+    <section id="">
+        <div class="title_section">
+        </div>
+        <div id="main">
+            <div id="main-content">
+                <form method="POST" onsubmit="return registerFunction();">
+                    <h2 class="title">Create your account</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- First Name input -->
+                            <div class="input-content name">
+                                <p class="question">First name</p>
+                                <input type="text" class="input" placeholder="Enter">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Last Name input -->
+                            <div class="input-content name">
+                                <p class="question">Last Name</p>
+                                <input type="text" class="input" placeholder="Enter">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="input-content info">
+                        <p class="question">Email</p>
+                        <input type="email" id="username" class="input" placeholder="Enter">
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="input-content info">
+                        <p class="question">Password</p>
+                        <input type="password" id="password" class="input" placeholder="Enter">
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" id="create" href="login.html">Create</button>
+
+                    <div class="d-flex justify-content-center align-items-center mb-4 mt-3">
+                        <a class="mr-3" style="color: black;text-decoration: none;" href="#!">Already have an
+                            account?</a>
+                        <a href="login.html">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
