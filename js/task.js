@@ -23,7 +23,7 @@ function loadingFolders() {
 
     document.getElementById("table").style.display = "none";
     document.getElementById("btn_addtask").style.display = "none";
-    document.getElementById("notify").innerHTML = "Select a folder at the corner to begin.";
+    document.getElementById("notify").innerHTML = "Select a task at the corner to begin.";
 
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", `${serverUrl}/task_lists`);
@@ -179,7 +179,7 @@ function getSharedTask() {
                         const tr = document.createElement("tr");
                         const th_id = document.createElement("th");
                         const td_name = document.createElement("td");
-                        const td_status = document.createElement("td");
+                        // const td_status = document.createElement("td");
                         const td_details = document.createElement("td");
                         const td_options = document.createElement("td");
 
@@ -197,16 +197,11 @@ function getSharedTask() {
                         }                        
                         td_options.innerHTML = list["user_id"];            
 
-                        if (random == 1) {
-                            td_status.innerHTML = "Not done"
-                        } else {
-                            td_status.innerHTML = "Done"
-                        }
                         //create table
                         task_lists.appendChild(tr);
                         tr.appendChild(th_id);
                         tr.appendChild(td_name);
-                        tr.appendChild(td_status);
+                        // tr.appendChild(td_status);
                         tr.appendChild(td_details);
                         tr.appendChild(td_options);
 
@@ -250,24 +245,20 @@ function fetchTask() {
                 } else {
                     document.getElementById("th_options").innerHTML = "Task options";
                     document.getElementById("th_name").innerHTML = "Task name";
-                    document.getElementById("th_status").innerHTML = "Task status";
                     for (let list of objects) {
                         const task_lists = document.getElementById("task_lists");
 
                         const tr = document.createElement("tr");
                         const th_id = document.createElement("th");
                         const td_name = document.createElement("td");
-                        const td_status = document.createElement("td");
                         const td_details = document.createElement("td");
                         const td_options = document.createElement("td");
 
                         const edit_button = document.createElement("button");
-                        const completed_button = document.createElement("button");
                         const share_button = document.createElement("button");
                         const delete_button = document.createElement("button");
 
                         const edit_i = document.createElement("i");
-                        const completed_i = document.createElement("i");
                         const share_i = document.createElement("i");
                         const delete_i = document.createElement("i");
 
@@ -278,12 +269,6 @@ function fetchTask() {
                         edit_button.setAttribute("data-toggle", "modal");
                         edit_button.setAttribute("data-target", "#editModal");
                         edit_i.className = "fa fa-edit";
-
-                        completed_button.className = "btn btn-success 1";
-                        completed_button.title = "Mark as completed";
-                        completed_button.setAttribute("data-toggle", "modal");
-                        completed_button.setAttribute("data-target", "#completedModal");
-                        completed_i.className = "fa fa-check-square-o";
 
                         share_button.className = "btn btn-info 1";
                         share_button.title = "Share";
@@ -299,14 +284,6 @@ function fetchTask() {
 
                         th_id.innerHTML = counter + 1;
                         td_name.innerHTML = list["name"];
-                        if (list["done"] == null) {
-                            td_status.innerHTML = "Not done";
-                        } else {
-                            td_status.innerHTML = "Completed";
-                            edit_button.style.display = "none";
-                            share_button.style.display = "none";
-                            completed_button.style.display = "none";
-                        }
                         if (!list["description"].trim()) {
                             td_details.innerHTML = "No detail has been received.";
                         } else {
@@ -317,15 +294,11 @@ function fetchTask() {
                         task_lists.appendChild(tr);
                         tr.appendChild(th_id);
                         tr.appendChild(td_name);
-                        tr.appendChild(td_status);
                         tr.appendChild(td_details);
                         tr.appendChild(td_options);
 
                         td_options.appendChild(edit_button);
                         edit_button.appendChild(edit_i);
-
-                        td_options.appendChild(completed_button);
-                        completed_button.appendChild(completed_i);
 
                         td_options.appendChild(share_button);
                         share_button.appendChild(share_i);
@@ -370,7 +343,7 @@ function fetchTask() {
                                 const description = document.getElementById("edittask_detail").value;
                                 if (name == "") {
                                     Swal.fire({
-                                        text: 'Oopsie hold on task name is empty 😂',
+                                        text: 'Invalid name',
                                         icon: 'error',
                                         confirmButtonText: 'OK'
                                     });

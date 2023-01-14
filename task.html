@@ -38,9 +38,9 @@
 
     <div class="container-fluid rounded bg-light">
         <div class="col-12 d-flex align-items-center">
-            <label class="text-secondary my-2 pr-2 view-opt-label">Folder</label>
+            <label class="text-secondary my-2 pr-2 view-opt-label">Task</label>
             <select id="folder_lists" autofocus onchange="selectFolder()">
-                <option value="1" disabled selected hidden> Choose folder</option>
+                <option value="1" disabled selected hidden> Choose task</option>
             </select>
         </div>
         <!-- View options section -->
@@ -66,8 +66,8 @@
                                 <th scope="col" style="width: 90px" onclick="sortTableNumerically()">Task ID</th>
                                 <th scope="col" style="width: 150px" id="th_name" onclick="sortTableAlphabetical(0)">
                                     Task name</th>
-                                <th scope="col" style="width: 150px" id="th_status" onclick="sortTableAlphabetical(1)">
-                                    Task status</th>
+                                <!-- <th scope="col" style="width: 150px" id="th_status" onclick="sortTableAlphabetical(1)">
+                                    Task status</th> -->
                                 <th scope="col" style="width: 300px" id="th_details" onclick="sortTableAlphabetical(2)">
                                     Task description</th>
                                 <th scope="col" style="width: 300px" id="th_options">Options</th>
@@ -95,16 +95,16 @@
                         <div class="col-auto px-0 mx-0 mr-2">
                             <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
                                 data-target="#addFolderModal">
-                                New folder</button>
+                                New task</button>
                             <button type="button" class="btn-group btn-group-toggle" data-toggle="modal" data-target="#addModal"
                                 id="btn_addtask" onclick="loadFolderUpdateDeleteAddTask()">
-                                New task</button>
+                                Add todo</button>
                             <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
                                 data-target="#updatedFolderModal" onclick="loadFolderUpdateDeleteAddTask()">Update
-                                folder</button>
+                                task</button>
                             <button type="button" class="btn-group btn-group-toggle" data-toggle="modal"
                                 data-target="#deletedFolderModal" onclick="loadFolderUpdateDeleteAddTask()">Delete
-                                folder</button>
+                                task</button>
                         </div>
                     </div>
                     <!-- The Modal -->
@@ -125,9 +125,9 @@
                                                 id="addTask_name">
                                         </div>
                                         <div class="form-group">
-                                            <label for="folder">Select folder: </label>
+                                            <label for="folder">Select task: </label>
                                             <select id="addtaskfolders_lists">
-                                                <option value="" disabled selected hidden> Choose folder </option>
+                                                <option value="" disabled selected hidden> Choose task </option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -185,14 +185,14 @@
                             <div class="modal-content">
                                 <!-- Modal Header -->
                                 <div class="modal-header">
-                                    <h4 class="modal-title">New folder</h4>
+                                    <h4 class="modal-title">New task</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <!-- Modal body -->
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-group">
-                                            <label for="name">Folder name:</label>
+                                            <label for="name">Task name:</label>
                                             <input type="text" class="form-control" id="addFolder_name">
                                         </div>
                                     </form>
@@ -200,7 +200,7 @@
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-dismiss="modal"
-                                        onclick="addFolder()">Add folder</button>
+                                        onclick="addFolder()">Add task</button>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -234,41 +234,15 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="duplicateModal">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Duplicate task</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="name" id="duplicate_label1"></label>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-dismiss="modal"
-                                        id="duplicate_btn">Confirm</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
-                    <div class="modal fade" id="moveModal">
+                    <!-- <div class="modal fade" id="moveModal">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <!-- Modal Header -->
                                 <div class="modal-header">
                                     <h4 class="modal-title">Move task</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <!-- Modal body -->
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-group">
@@ -279,7 +253,6 @@
                                         </div>
                                     </form>
                                 </div>
-                                <!-- Modal footer -->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-success" id="move_btn">Move
                                         task</button>
@@ -287,7 +260,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="modal fade" id="shareModal">
                         <div class="modal-dialog">
@@ -330,13 +303,13 @@
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-group">
-                                            <label for="folder">Choose folder: </label>
+                                            <label for="folder">Choose task: </label>
                                             <select id="updatefolder_lists" onchange="loadingOnchangeSelectUpdate()">
                                                 <option value="" disabled selected hidden> Folder</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">New folder name:</label>
+                                            <label for="name">New task name:</label>
                                             <input type="text" class="form-control" id="updatefolder_name">
                                         </div>
                                     </form>
@@ -344,7 +317,7 @@
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" id="btn_addfoldertask"
-                                        onclick="updateFolder()">Update folder
+                                        onclick="updateFolder()">Update task
                                     </button>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                 </div>
@@ -357,16 +330,16 @@
                             <div class="modal-content">
                                 <!-- Modal Header -->
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Delete folder</h4>
+                                    <h4 class="modal-title">Delete task</h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <!-- Modal body -->
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-group">
-                                            <label for="name">Choose folder: </label>
+                                            <label for="name">Choose task: </label>
                                             <select id="deletefolder_lists">
-                                                <option value="" disabled selected hidden> Choose folder</option>
+                                                <option value="" disabled selected hidden>Task</option>
                                             </select>
                                         </div>
                                     </form>
